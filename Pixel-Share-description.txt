@@ -1,0 +1,33 @@
+# 🎮 PixelShare - File & Website Sharing Tool for Android
+
+**PixelShare** is a retro-themed file & website hosting tool that runs entirely on your Android device using [Termux](https://f-droid.org/packages/com.termux/). Share files or full static websites from your device — styled with a nostalgic DOS pixel UI.
+
+![screenshot](preview.gif) <!-- optional image preview -->
+
+---
+
+## ✨ Features
+
+- 🕹️ Retro pixel-style UI (DOS VGA font)
+- 📂 Share local files via browser (download links)
+- 📤 Upload static website files for hosting
+- 🌍 Ngrok tunnel integration to expose your device to the web
+- ⚙️ Fully offline-compatible (run from internal storage)
+- 📱 Designed for Android + Termux
+
+---
+
+## 📦 How to Use (Android)
+
+1. **Install [Termux](https://f-droid.org/packages/com.termux/)** via F-Droid
+2. **Move `index.html`** to `/sdcard/Download`
+3. **Open Termux**, and run:
+
+```bash
+pkg update && pkg install -y python wget unzip
+cd /sdcard/Download
+wget https://bin.equinox.io/c/4VmDzA7iaHb/ngrok-stable-linux-arm.zip
+unzip ngrok-stable-linux-arm.zip
+mv ngrok ~/ngrok && chmod +x ~/ngrok
+python3 -m http.server 8080
+~/ngrok http 8080
