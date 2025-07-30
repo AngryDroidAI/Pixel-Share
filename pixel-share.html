@@ -1,0 +1,130 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <title>PixelShare</title>
+  <style>
+    @font-face {
+      font-family: 'Pixel';
+      src: url('https://fonts.cdnfonts.com/s/8964/Perfect DOS VGA 437.woff') format('woff');
+    }
+
+    body {
+      margin: 0;
+      padding: 20px;
+      font-family: 'Pixel', monospace;
+      background: #000;
+      color: #33ff33;
+      font-size: 16px;
+    }
+
+    h1, h2 {
+      color: #00ffff;
+    }
+
+    input[type="file"], input[type="password"] {
+      background: #111;
+      color: #33ff33;
+      border: 1px solid #33ff33;
+      padding: 8px;
+      font-family: inherit;
+    }
+
+    .pixel-box {
+      border: 2px solid #33ff33;
+      padding: 10px;
+      margin-top: 20px;
+    }
+
+    .file-list a {
+      display: block;
+      margin-top: 10px;
+      color: #33ff33;
+      text-decoration: none;
+    }
+
+    .file-list a:hover {
+      color: #ff0;
+    }
+
+    pre {
+      background: #111;
+      padding: 10px;
+      color: #00ff00;
+      overflow-x: auto;
+    }
+
+    button {
+      font-family: 'Pixel', monospace;
+      background: #222;
+      color: #0f0;
+      border: 1px solid #0f0;
+      padding: 5px 10px;
+      margin-top: 5px;
+      cursor: pointer;
+    }
+
+    button:hover {
+      background: #0f0;
+      color: #000;
+    }
+
+    #ngrok-url {
+      color: #ff0;
+      font-weight: bold;
+      font-size: 18px;
+    }
+
+    #qr-code {
+      margin-top: 10px;
+    }
+
+    .protected {
+      display: none; /* Hidden by default */
+    }
+  </style>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.6.0/jquery.min.js"></script>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery.qrcode/1.0/jquery.qrcode.min.js"></script>
+</head>
+<body>
+  <h1>🕹️ PixelShare - File Server & Host</h1>
+
+  <div class="pixel-box">
+    <h2>📂 Share Files (Download)</h2>
+    <input type="file" id="fileInput" multiple>
+    <div class="file-list" id="fileList"></div>
+  </div>
+
+  <div class="pixel-box">
+    <h2>📤 Upload Files to Host a Website</h2>
+    <p>Select <code>index.html</code> or a website folder (zipped)</p>
+    <input type="file" id="uploadInput" multiple>
+    <p style="color:#999;">Note: Files are not uploaded online. You must copy them to /sdcard/Download manually via Termux.</p>
+  </div>
+
+  <div class="pixel-box">
+    <h2>🌍 Your Public Ngrok Address</h2>
+    <p>Paste this link after starting Termux + ngrok:</p>
+    <p id="ngrok-url">[ Waiting for Ngrok link... ]</p>
+    <button onclick="checkNgrok()">🔄 Check Ngrok URL</button>
+    <button onclick="copyToClipboard()">📋 Copy Ngrok URL</button>
+    <div id="qr-code"></div>
+  </div>
+
+  <div class="pixel-box">
+    <h2>🔐 Password Protection</h2>
+    <input type="password" id="passwordInput" placeholder="Enter password">
+    <button onclick="checkPassword()">Submit</button>
+    <p id="passwordMessage"></p>
+    <div class="protected">
+      <h3>🔒 Protected Content</h3>
+      <p>This content is only visible after entering the correct password.</p>
+    </div>
+  </div>
+
+  <div class="pixel-box">
+    <h2>🛠️ Server Tools Panel</h2>
+    <button onclick="copyToClipboard('python3 -m http.server 8080')">Start Server</button>
+    <button onclick="copyToClipboard('ngrok http 8080')">Start Ngrok</button>
+  </div>
+
